@@ -1,0 +1,141 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --cell_size: 100px;
+  --mark-size: calc(var(--cell_size) * 0.9);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+.board {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  /* makes content centered */
+  justify-content: center;
+  align-content: center;
+
+  /* make items centered */
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(3, auto);
+}
+.cell {
+  width: var(--cell_size);
+  height: var(--cell_size);
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cell:nth-child(n + 1) {
+  border-top: none;
+}
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+.cell:nth-child(3n + 3) {
+  border-right: none;
+}
+.cell:nth-child(n + 7) {
+  border-bottom: none;
+}
+
+.cell.x,
+.cell.o {
+  cursor: not-allowed;
+}
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--mark-size) * 0.15);
+  height: var(--mark-size);
+  background: black;
+  border-radius: 10px;
+}
+
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+  opacity: 0.3;
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.o):hover::before {
+  transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::after {
+  transform: rotate(135deg);
+}
+
+.cell.o::before,
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover::before,
+.board.o .cell:not(.x):not(.o):hover::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.cell.o::before,
+.board.o .cell:not(.x):not(.o):hover::before {
+  width: calc(var(--mark-size));
+  height: calc(var(--mark-size));
+  background: black;
+}
+
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover::after {
+  width: calc(var(--mark-size) * 0.7);
+  height: calc(var(--mark-size) * 0.7);
+  background: white;
+}
+
+.board.o .cell:not(.x):not(.o):hover::before {
+  opacity: 0.3;
+}
+
+/* winning message */
+.winning_message.show {
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+.winning_message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 4rem;
+  color: white;
+  letter-spacing: 10px;
+  cursor: context-menu;
+  display: none;
+}
+
+.winning_message button {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.winning_message button:hover {
+  opacity: 0.8;
+}
